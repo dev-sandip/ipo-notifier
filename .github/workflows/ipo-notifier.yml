@@ -27,7 +27,7 @@ jobs:
         env:
           IPO_NEWS_URL: ${{ secrets.IPO_NEWS_URL }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        run: python -m main.py  # Replace with your script name (e.g., ipo_notifier.py)
+        run: python  main.py  # Replace with your script name (e.g., ipo_notifier.py)
 
       - name: Commit updated state file if changed
         run: |
