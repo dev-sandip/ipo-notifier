@@ -1,0 +1,18 @@
+# set the directory Pyrefly will search for files to type check
+project-includes = [
+    "a", "b/c/d", "e"
+]
+
+# manually set the `sys.platform` Pyrefly will assume when type checking
+python-platform = "linux"
+
+# return an import error when `<library>-stubs` can be imported, but no
+# non-stubs version of that library can be found
+ignore-missing-source = false
+
+# a table mapping error codes to an `is-enabled` boolean
+[errors]
+# disable `bad-assignment` errors
+bad-assignment = false
+# disable `bad-return` errors
+bad-return = false

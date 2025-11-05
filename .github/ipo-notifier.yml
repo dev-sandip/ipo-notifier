@@ -1,0 +1,42 @@
+name: IPO Notifier Cron
+
+on:
+  schedule:
+    # Run every 6 hours (UTC). Adjust cron as needed (e.g., '0 */6 * * *').
+    - cron: '0 */6 * * *'
+  workflow_dispatch:  # Allow manual trigger for testing
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}  # For pushing updates
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run IPO notifier
+        env:
+          IPO_NEWS_URL: ${{ secrets.IPO_NEWS_URL }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: python -m main.py  # Replace with your script name (e.g., ipo_notifier.py)
+
+      - name: Commit updated state file if changed
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          if git diff --exit-code; then
+            echo "No changes to commit."
+          else
+            git add last_ipo_state.json
+            git commit -m "Update IPO state: new max ID"
+            git push
+          fi
