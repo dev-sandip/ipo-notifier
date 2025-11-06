@@ -3,7 +3,7 @@ name: IPO Notifier Cron
 on:
   schedule:
     # Run every 6 hours (UTC). Adjust cron as needed (e.g., '0 */6 * * *').
-    - cron: * * * * *
+    - cron: '0 */6 * * *'
   workflow_dispatch:  # Allow manual trigger for testing
 
 jobs:
